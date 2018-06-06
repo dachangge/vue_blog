@@ -1,0 +1,61 @@
+$themeColor: #61CDE7;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+  font-size: 14px;
+  background: #E1E1E1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+.router_link{
+  color: $themeColor;
+}
+.nav{
+  background: $themeColor;
+  padding: 5px 0;
+  .nav-logo{
+    height: 40px;
+    img{
+      height: 40px;
+    }
+  }
+  .nav-search {
+    padding: 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    .el-input__inner{
+      margin-top: 5px;
+      height:30px;
+    }
+  }
+  .nav-tabs{
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    font-size: 16px;
+    height: auto;
+    li{
+      padding: 0 20px;
+    }
+  }
+}
+
+.lt{
+  float: left;
+}
+
+.rt{
+  float: right;
+}
+.clear{
+  clear: both;
+}
