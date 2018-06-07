@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-view/>
+    <div class="router_container ">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -25,4 +27,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+  .router_container{
+    padding: 20px 20px;
+  }
 </style>

@@ -1,5 +1,6 @@
 <template>
-    <div class="register" >
+  <div>
+    <div class="main" >
       <div class="header">
         <router-link tag="span" to="/" class="router_link">主页</router-link>
         <span>\ 注册</span>
@@ -21,10 +22,26 @@
         <el-form-item label="手机号">
           <el-input class="register_input" type="number" v-model="form.phone"></el-input>
         </el-form-item>
-        <el-button type="primary" @click="HandleSubmit">注册</el-button>
+        <el-button type="primary" @click="HandleSubmit">新用户注册</el-button>
       </el-form>
-
     </div>
+    <div class="aside">
+      <div class="header">
+        <span>关于</span>
+      </div>
+      <div class="container">
+        <p>whc的论坛</p>
+        <p>在这里你可以：</p>
+        <ul>
+          <li>向别人提出你遇到的问题</li>
+          <li>向别人提出你遇到的问题</li>
+          <li>向别人提出你遇到的问题</li>
+          <li>向别人提出你遇到的问题</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -38,14 +55,14 @@ export default {
   methods: {
     HandleSubmit() {
       console.log(this.form);
-      this.$http.post('http://localhost:3000/user/create', this.form)
+      this.$http.post('/user/create', this.form)
         .then(res => {
           console.log(res);
         })
     }
   },
   created() {
-    this.$http.get('http://localhost:3000/user/show',)
+    this.$http.get('/user/show',)
       .then(res => {
         console.log(res);
       })
@@ -54,17 +71,14 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .register{
     background:#fff;
-    .header{
-      padding: 10px;
-      background-color: #f6f6f6;
-      border-radius: 3px 3px 0 0
-    }
+    padding-bottom: 20px;
     .register_input{
       max-width: 250px;
     }
   }
+
 
 </style>

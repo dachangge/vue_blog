@@ -20,13 +20,16 @@
           <li class="lt">分享</li>
           <li class="lt">提问</li>
           <li class="lt">关于</li>
-          <li class="lt">登陆</li>
-          <router-link tag="li" :to="'/register'" class="lt">注册</router-link>
+          <li class="lt" v-if="!logined" @click="show">登陆</li>
+          <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
+          <li class="lt"  v-if="logined">设置</li>
+          <li class="lt" v-if="logined">退出</li>
         </ul>
      </el-col>
    </el-row>
 </template>
 <script>
+  import {mapGetters} from 'vuex'
 export default {
     name: 'appHeader',
     data() {
@@ -34,6 +37,19 @@ export default {
           seachValue: ''
         }
     },
+    computed:{
+      ...mapGetters([
+        'logined'
+      ])
+    },
+  methods: {
+    show() {
+      console.log(this.logined)
+    }
+  },
+    created() {
+      this.$store.dispatch('getInfo');
+    }
 
 }
 </script>
