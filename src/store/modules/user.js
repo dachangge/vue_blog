@@ -10,6 +10,9 @@ export default{
         return true
       }
       return false;
+    },
+    loginInfo: state => {
+      return state.loginInfo;
     }
   },
   actions: {

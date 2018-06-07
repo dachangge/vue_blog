@@ -2,7 +2,9 @@
    <el-row :gutter="10" class="nav">
        <el-col :xs="24" :sm="6" :md="5" :lg="5">
            <div class="nav-logo">
+             <router-link to="/">
                <img src="../assets/image/logo.png"  alt="">
+             </router-link>
            </div>
        </el-col>
        <el-col :xs="24" :sm="12" :md="8" :lg="8">
@@ -22,7 +24,7 @@
           <li class="lt">关于</li>
           <li class="lt" v-if="!logined" @click="show">登陆</li>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
-          <li class="lt"  v-if="logined">设置</li>
+          <router-link v-if="logined" tag="li" :to="'/setting'" class="lt">设置</router-link>
           <li class="lt" v-if="logined">退出</li>
         </ul>
      </el-col>
@@ -54,6 +56,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+  .nav-logo{
+    cursor: pointer;
+  }
 </style>
 

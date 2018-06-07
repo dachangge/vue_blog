@@ -62,10 +62,6 @@ export default {
     }
   },
   created() {
-    this.$http.get('/user/show',)
-      .then(res => {
-        console.log(res);
-      })
   }
 }
 

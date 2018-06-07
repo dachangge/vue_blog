@@ -9,7 +9,6 @@
 
 <script>
   import "@/assets/index.scss"
-
   import AppHeader from '@/components/header'
 export default {
   name: 'App',
