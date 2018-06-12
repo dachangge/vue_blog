@@ -4,6 +4,9 @@
   </div>
 </template>
 <script>
+  import tinymce from 'tinymce/tinymce';
+  tinymce.baseURL = '/static/tinymce4.7.5'
+
   export default {
     name: 'tinymce',
     props: {
@@ -20,7 +23,7 @@
         required: false,
         default() {
           return [
-            'undo redo | bold italic underline strikethrough removeformat | forecolor backcolor | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | separator link joinfimage'
+            'undo redo | bold italic underline strikethrough removeformat | forecolor backcolor | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | separator link joinfimage | image '
           ]
         }
       },
@@ -42,15 +45,17 @@
     watch: {
       value(val) {
         if (!this.hasChange && this.hasInit) {
-          this.$nextTick(() => window.tinymce.get(this.id).setContent(val))
+          this.$nextTick(() => tinymce.get(this.id).setContent(val))
         }
       }
     },
     mounted() {
       const _this = this;
-      window.tinymce.init({
+      tinymce.init({
         selector: `#${this.id}`,
         language: 'zh_CN',
+        language_url: '/static/tinymce4.7.5/langs/zh_CN.js',
+        skin_url: '/static/tinymce4.7.5/skins/lightgray',
         height: this.height,
         body_class: 'panel-body',
         object_resizing: true,
@@ -58,15 +63,34 @@
         menubar: false,
         statusbar: false,
         font_formats:"微软雅黑=微软雅黑,Microsoft YaHei;宋体=宋体,SimSun;黑体=黑体, SimHei;隶书=隶书, SimLi;楷体=楷体,楷体_GB2312, SimKai;andale mono=andale mono;arial=arial, helvetica,sans-serif;arial black=arial black,avant garde;comic sans ms=comic sans ms;impact=impact,chicago;Arial=Arial;Verdana=Verdana;Georgia=Georgia;Times New Roman=Times New Roman;Trebuchet MS=Trebuchet MS;Courier New=Courier New;Impact=Impact;Comic Sans MS=Comic Sans MS;Calibri=Calibri",
-        images_upload_url: this.html_url+'/common/uploadFile',
+        images_upload_url: '/file/upload',
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         plugins: [
           'advlist autolink lists link image preview anchor'
           ,'searchreplace visualblocks code fullscreen'
           ,'charmap colorpicker directionality emoticons nonbreaking'
           ,'tabfocus textcolor joinfimage'
+          ,' image'
+
         ],
-        fontsizeFormats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 36pt 48pt',
+
+
+        images_upload_credentials: true,
+        images_upload_handler:(blobInfo, success, failure) => {
+          let fd = new FormData();
+          console.log(blobInfo, blobInfo.blob())
+          fd.append('file', blobInfo.blob());
+          fd.append('path', this.path);
+          this.$http.post('/file/upload', fd, { header: {'Content-Type': 'multipart/form-data'}})
+            .then(res => {
+              if (res.code == '0000') {
+                success(res.result);
+              }
+            })
+        },
+
+
+          fontsizeFormats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 36pt 48pt',
         default_link_target: '_blank',
         link_title: false,
         init_instance_callback: editor => {
@@ -126,7 +150,7 @@
       });
     },
     destroyed() {
-      window.tinymce.get(this.id).destroy();
+      tinymce.get(this.id).destroy();
     }
   }
 </script>

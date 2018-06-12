@@ -20,6 +20,8 @@ export default{
       axios.post('/user/checkUser').then(res => {
         if(res.code === 1){
           commit("setlogininfo", res.result);
+        }else{
+          commit('setlogininfo', {})
         }
       })
     }

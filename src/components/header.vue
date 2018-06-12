@@ -22,10 +22,10 @@
           <li class="lt">分享</li>
           <li class="lt">提问</li>
           <li class="lt">关于</li>
-          <li class="lt" v-if="!logined" @click="show">登陆</li>
+          <router-link v-if="!logined" tag="li" :to="'/login'" class="lt">登陆</router-link>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
           <router-link v-if="logined" tag="li" :to="'/setting'" class="lt">设置</router-link>
-          <li class="lt" v-if="logined">退出</li>
+          <li class="lt" v-if="logined" @click="HandleLoginout">退出</li>
         </ul>
      </el-col>
    </el-row>
@@ -47,6 +47,14 @@ export default {
   methods: {
     show() {
       console.log(this.logined)
+    },
+    HandleLoginout() {
+      this.$http.post('/user/loginOut').then(res => {
+        if(res.code === 1){
+          this.$store.dispatch('getInfo');
+          this.$router.push('/main');
+        }
+      })
     }
   },
     created() {
