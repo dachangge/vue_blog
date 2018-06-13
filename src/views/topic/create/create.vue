@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div class="main_warpper">
     <div class="main" >
       <div class="header">
         <router-link tag="span" to="/" class="router_link">主页</router-link>
@@ -9,16 +9,15 @@
       <div class="main_contianer tl">
         <el-form>
           <el-form-item label="选择板块： " label-width="100px">
-            <el-select v-model="type" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="type" placeholder="请选话题模块">
+              <el-option v-for="(opt, index) of typeOptions" :key="index" :label="opt.name" :value="opt.type"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label=""  class="defineItem">
             <el-input type="text" v-model="title" placeholder="标题字数十字以上"></el-input>
           </el-form-item>
         </el-form>
-        <tinymce class="createTopic" :height=400 ref="editor" v-model="content"></tinymce>
+        <tinymce class="createTopic" :height="400" ref="editor" v-model="content"></tinymce>
         <el-button type="success" class="submitBtn" @click="HandleSubmit">提交</el-button>
       </div>
     </div>
@@ -42,7 +41,7 @@
 </template>
 
 <script>
-import tinymce from '@/components//tinymce'
+import tinymce from '@/components/tinymce'
 
 export default {
   name: 'create',
@@ -50,7 +49,8 @@ export default {
     return {
       content: '',
       type: null,
-      title: ''
+      title: '',
+      typeOptions: []
     }
   },
   methods: {
@@ -59,18 +59,31 @@ export default {
       this.$http.post('/topic/insertTopic',{content: this.content, type: this.type, title: this.title})
         .then(res => {
           if(res.code === 1){
+            // console.log(res);
+            this.$router.push({path:`/topic/${res.result._id}`});
           }
         })
     }
   },
   components: {
     tinymce
+  },
+  created() {
+    this.$http.post('/topic/queryTopicType')
+      .then(res => {
+        if(res.code === 1){
+          this.typeOptions = res.result;
+        }
+      })
   }
 }
 </script>
 
 <style >
 
+  .main_contianer{
+    margin-top: 20px;
+  }
   .createTopic .mce-tinymce{
     border: none;
     margin: 0 20px;

@@ -79,6 +79,7 @@ ul {
     }
   }
 }
+
 .main .header, .aside .header{
   padding: 10px;
   background: #f6f6f6;
@@ -86,15 +87,34 @@ ul {
   border-radius: 3px 3px 0 0;
   color: #999
 }
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1560px) {
+  .main_warpper{
+    width: 1400px;
+    margin: 0 auto;
+  }
   .main{
-    width: calc(100vw - 350px);
+    width: calc(100% - 330px);
+  }
+  .aside{
+    width: 300px;
+  }
+}
+@media screen and (min-width: 960px) and(max-width: 1559px) {
+  .main_warpper{
+    width: 90%;
+    margin: 0 auto;
+  }
+  .main{
+    width: calc(100% - 330px);
   }
   .aside{
     width: 300px;
   }
 }
 @media screen and (max-width: 959px){
+  .main_warpper{
+    width: 100%;
+  }
   .aside{
     //width: 0;
     display: none;
@@ -130,4 +150,38 @@ ul {
 }
 .tr{
   text-align: right;
+}
+
+//多行文本省略...  clp：行数
+@mixin line-clamp($clp) {
+  overflow: hidden;
+  text-overflow: ellipsis; // display: -webkit-box;
+  -webkit-line-clamp: $clp;
+  -webkit-box-orient: vertical;
+}
+
+// 单行文本省略...//使用它的前提容器必须顶宽度
+@mixin line-only {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ellipsis{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mt-10{
+  margin-top: 10px !important;
+}
+.mt-15{
+  margin-top: 15px !important;
+}
+.mb-10{
+  margin-bottom: 10px !important;
+}
+.mb-15{
+  margin-bottom: 15px !important;
 }

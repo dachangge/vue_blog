@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main_warpper">
     <div class="main" >
       <div class="header">
         <router-link tag="span" to="/" class="router_link">主页</router-link>

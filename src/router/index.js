@@ -4,6 +4,8 @@ import register from '../views/register/register'
 import setting from '../views/setting/setting'
 import topicCreate from '../views/topic/create/create'
 import login from '../views/register/login'
+import topic from '../views/topic/topic/topic'
+
 Vue.use(Router)
 
 export default new Router({
@@ -27,6 +29,13 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path:'/topic/:id',
+      name: 'topic',
+      props: true,
+      component: topic
+
     }
 
   ]
