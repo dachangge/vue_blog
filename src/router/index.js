@@ -5,11 +5,16 @@ import setting from '../views/setting/setting'
 import topicCreate from '../views/topic/create/create'
 import login from '../views/register/login'
 import topic from '../views/topic/topic/topic'
+import home from '../views/home/home'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      component: home
+    },
     {
       path: '/register',
       name: 'register',
