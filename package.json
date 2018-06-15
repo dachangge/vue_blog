@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.4.0",
+    "element-ui": "^2.3.7",
+    "marked": "^0.4.0",
+    "mavon-editor": "^2.6.5",
     "moment": "^2.22.2",
     "tinymce": "^4.7.13",
     "vue": "^2.5.2",

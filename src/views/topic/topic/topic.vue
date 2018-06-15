@@ -11,7 +11,7 @@
           </p>
           <p class="title_desc">
             <span>发布于{{create_time}}</span>
-            <span>作者{{item.userMsg.user_name}}</span>
+            <span>作者{{item.user_id.user_name}}</span>
             <span>{{item.looks}}次浏览</span>
             <span>来自 {{btnTitle}}</span>
           </p>
@@ -21,19 +21,24 @@
 
         </div>
       </div>
-      <div class="main_center" v-if="item.replay_arr && item.replay_arr.length > 0">
+      <div class="main_center" v-if="item.replays && item.replays.length > 0">
         <div class="header">
-          <span> {{item.replay_arr.length}} 回复</span>
+          <span> {{item.replays.length}} 回复</span>
         </div>
         <ul class="replys_ul">
-          <li v-for="(rep, index) in item.replay_arr" :key="index" >
+          <li v-for="(rep, index) in replays" :key="index" >
+            <i class="el-icon-edit rt icon" @click="HandleReplytoReply(rep)"></i>
             <div class="reply_msg">
               <img src="https://avatars0.githubusercontent.com/u/23630003?v=4&s=120" alt="">
-              <span class="user_name">{{rep.userMsg ? rep.userMsg.user_name : 'zhazha'}}</span>
+              <span class="user_name">{{rep.user_id ? rep.user_id.user_name : 'zhazha'}}</span>
               <span class="reply_time">{{rep.create_time | hlbefore}}</span>
             </div>
             <div class="reply_content" v-html="rep.content">
 
+            </div>
+            <div  class="addReply" v-show="Boolean(rep.showReply)">
+               <markdown   :content.sync="rep.replyContent"></markdown>
+              <el-button type="primary" size="mini">回复</el-button>
             </div>
           </li>
         </ul>
@@ -43,7 +48,7 @@
           <span>添加回复</span>
         </div>
         <div class="bottom_container">
-          <tinymce :height="200" ref="editor" v-model="replyContent"></tinymce>
+          <markdown  :content.sync="replyContent"></markdown>
           <el-button class="mt-10 mb-10" type="success" @click="HandleReply">回复</el-button>
         </div>
       </div>
@@ -54,10 +59,10 @@
         <span>作者</span>
       </div>
       <div class="container">
-        <img class="user_img" :src="item.userMsg.url? item.userMsg.url : 'https://avatars0.githubusercontent.com/u/23630003?v=4&s=120'" alt="">
-        <span class="user_name">{{item.userMsg.user_name}}</span>
+        <img class="user_img" :src="item.user_id.url? item.user_id.url : 'https://avatars0.githubusercontent.com/u/23630003?v=4&s=120'" alt="">
+        <span class="user_name">{{item.user_id.user_name}}</span>
         <p>
-          <i class="user_autograph">{{item.userMsg.autograph? item.userMsg.autograph: '这家伙很懒，什么个性签名都没有留下。'}}</i>
+          <i class="user_autograph">{{item.user_id.autograph? item.user_id.autograph: '这家伙很懒，什么个性签名都没有留下。'}}</i>
         </p>
       </div>
     </div>
@@ -66,7 +71,8 @@
 </template>
 
 <script>
-  import tinymce from '@/components/tinymce'
+  import marked from 'marked';
+  import markdown from '@/components/markdown'
   import moment from 'moment'
   export default {
     name: 'topic',
@@ -76,16 +82,23 @@
     data() {
       return {
         item: {
-          userMsg: {}
+          user_id: {}
         },
-        replyContent: ''
+        replyContent: '',
+        addReply: '',
+        replays: []
       }
     },
     methods: {
       HandleReply() {
-        this.$http.post('/comment/addComment',{_id: this.item._id,content: this.replyContent, type: 'topic', authid: this.item.user_id}).then(res => {
+        let content = marked(this.replyContent);
+        this.$http.post('/comment/addComment',{_id: this.item._id,content: content, type: 'topic', authid: this.item.user_id}).then(res => {
           console.log(res);
         })
+      },
+      HandleReplytoReply(rep) {
+        rep.showReply = 1;
+        rep.replyContent = '@'+12321312;
       }
     },
     computed: {
@@ -100,10 +113,10 @@
         else if(this.item.type === 'question')
           return '提问';
         return '默认';
-      },
+      }
     },
     components: {
-      tinymce
+      markdown
     },
     created() {
       this.$http.post('/topic/queryTopicById',{id: this.id})
@@ -111,6 +124,10 @@
           console.log(res);
           if(res.code === 1){
             this.item = res.result;
+
+            this.replays = this.item.replays;
+            console.log(this.replays)
+
           }
         })
     }
@@ -157,6 +174,10 @@
             padding-left: 40px;
             padding-top: 8px;
             font-size: 14px;
+          }
+          .addReply{
+            padding-top: 12px;
+            padding-left: 43px;
           }
         }
       }

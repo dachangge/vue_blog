@@ -15,6 +15,11 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+
+Vue.use(mavonEditor);
+
 import './axios/axios';
 
 import moment from 'moment';
@@ -28,7 +33,6 @@ Vue.filter('hlbefore', function (value) {
   if(!value)
     return ''
    let date =new Date(value);
-  console.log(date);
    let date2 = new Date();
    if(date2.getFullYear() != date.getFullYear()){
        return date2.getFullYear() - date.getFullYear()+'年前';

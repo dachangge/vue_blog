@@ -23,22 +23,7 @@
         </el-form>
       </div>
       <div class="aside">
-        <div class="header">
-          <span>个人信息</span>
-        </div>
-        <div class="container">
-          <img class="user_img" :src="loginInfo.url? loginInfo.url : 'https://avatars0.githubusercontent.com/u/23630003?v=4&s=120'" alt="">
-          <span class="user_name">{{user_name}}</span>
-          <p>
-            <i class="user_autograph">{{autograph}}</i>
-          </p>
-        </div>
-        <div class="blank"></div>
-        <div class="topic">
-          <router-link to="/topic/create">
-            <el-button type="success" >发布话题</el-button>
-          </router-link>
-        </div>
+
       </div>
       <div class="main mt-15">
         <div class="header">
@@ -72,7 +57,8 @@
         HandleSubmit() {
           this.$http.post('/user/saveUser',this.loginInfo).then(res => {
             if(res.code === 1){
-             this.changeMsg();
+              this.$store.dispatch('getInfo');
+              this.changeMsg();
             }
           })
         },

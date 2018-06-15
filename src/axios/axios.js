@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../router/index'
 import {
   Message,
 } from 'element-ui'
@@ -28,6 +29,18 @@ axios.interceptors.response.use((res) => {
       duration: 5000,
       showClose: true
     });
+    if(res.data.code === 9999) {
+      router.push({path: '/login'})
+    }
     return res.data;
   }
-})
+}, (error) => {
+  console.log(error)
+  Message({
+    type: 'error',
+    message: error.message,
+    duration: 5000,
+    showClose: true
+  });
+  return {code: 0, description: error.message};
+});
