@@ -17,7 +17,7 @@
             <el-input type="text" v-model="title" placeholder="标题字数十字以上"></el-input>
           </el-form-item>
         </el-form>
-        <markdown :content.sync="content"></markdown>
+        <editor :height="350" :content.sync="content"></editor>
         <el-button type="success" class="submitBtn" @click="HandleSubmit">提交</el-button>
       </div>
     </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import markdown from '@/components/markdown';
+import editor from '@/components/tinymce';
 
 export default {
   name: 'create',
@@ -66,7 +66,7 @@ export default {
     }
   },
   components: {
-    markdown
+    editor
   },
   created() {
     this.$http.post('/topic/queryTopicType')

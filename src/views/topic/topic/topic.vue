@@ -36,8 +36,8 @@
             <div class="reply_content" v-html="rep.content">
 
             </div>
-            <div  class="addReply" v-show="Boolean(rep.showReply)">
-               <markdown   :content.sync="rep.replyContent"></markdown>
+            <div  class="addReply">
+              <editor :height="300" :content.sync="rep.replyContent"></editor>
               <el-button type="primary" size="mini">回复</el-button>
             </div>
           </li>
@@ -48,7 +48,8 @@
           <span>添加回复</span>
         </div>
         <div class="bottom_container">
-          <markdown  :content.sync="replyContent"></markdown>
+          <editor :id="reply" :height="300" :content.sync="replyContent"></editor>
+
           <el-button class="mt-10 mb-10" type="success" @click="HandleReply">回复</el-button>
         </div>
       </div>
@@ -71,8 +72,7 @@
 </template>
 
 <script>
-  import marked from 'marked';
-  import markdown from '@/components/markdown'
+  import editor from '@/components/tinymce'
   import moment from 'moment'
   export default {
     name: 'topic',
@@ -91,14 +91,14 @@
     },
     methods: {
       HandleReply() {
-        let content = marked(this.replyContent);
-        this.$http.post('/comment/addComment',{_id: this.item._id,content: content, type: 'topic', authid: this.item.user_id}).then(res => {
+        this.$http.post('/comment/addComment',{_id: this.item._id,content: this.replyContent, type: 'topic', authid: this.item.user_id}).then(res => {
           console.log(res);
         })
       },
       HandleReplytoReply(rep) {
         rep.showReply = 1;
         rep.replyContent = '@'+12321312;
+        console.log(rep)
       }
     },
     computed: {
@@ -116,7 +116,7 @@
       }
     },
     components: {
-      markdown
+      editor
     },
     created() {
       this.$http.post('/topic/queryTopicById',{id: this.id})
@@ -124,8 +124,10 @@
           console.log(res);
           if(res.code === 1){
             this.item = res.result;
-
             this.replays = this.item.replays;
+            this.replays.forEach(it => {
+              it.showReply = false;
+            })
             console.log(this.replays)
 
           }

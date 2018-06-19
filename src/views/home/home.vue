@@ -39,11 +39,13 @@
 
 <script>
 import  userInfo from '@/components/userInfo'
+import  Editor from '@/components/tinymce'
 import {mapGetters} from 'vuex';
 export default {
   name: 'home',
   data() {
     return {
+      content: '',
       typeOptions: [],
       tab:'all',
       topicItems: [],
@@ -97,7 +99,8 @@ export default {
     this.doQuery();
   },
   components: {
-    userInfo
+    userInfo,
+    Editor
   }
 
 }
