@@ -194,25 +194,17 @@ ul {
   max-width: 100%;
 }
 
-.v-note-wrapper.markdown-body{
-  .v-note-op.shadow{
-    border: none;
-    box-shadow: inherit;
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #aaa;
-  }
-  .v-note-panel.shadow{
-    border: none;
-    box-shadow: inherit;
-  }
-}
-.addReply{
-  .v-note-wrapper.markdown-body{
-    height: 150px;
-    min-height: 0;
-    .v-note-op.shadow{
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
+.mce-tinymce.mce-container.mce-panel{
+  border: none;
+  .mce-container-body{
+    .mce-container.mce-menubar.mce-toolbar.mce-first{
+      display: none;
     }
+    .mce-toolbar-grp.mce-container.mce-panel.mce-last{
+      border: none;
+    }
+  }
+  .mce-branding.mce-widget.mce-label.mce-flow-layout-item.mce-last{
+    display: none;
   }
 }

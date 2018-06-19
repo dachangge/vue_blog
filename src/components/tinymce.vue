@@ -28,6 +28,10 @@ export default {
   watch: {
     tinymceHtml(val) {
       this.$emit('update:content',val);
+    },
+    content(val){
+      if(this.content !== this.tinymceHtml)
+        this.tinymceHtml = this.content;
     }
   },
   data() {
@@ -63,6 +67,8 @@ export default {
   },
   mounted() {
     tinymce.init({});
+    this.tinymceHtml = this.content;
+    console.log('!!!!!!!!!!!!!!!');
   }
 }
 </script>

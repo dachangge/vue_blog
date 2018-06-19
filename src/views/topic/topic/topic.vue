@@ -36,9 +36,9 @@
             <div class="reply_content" v-html="rep.content">
 
             </div>
-            <div  class="addReply">
-              <editor :height="300" :content.sync="rep.replyContent"></editor>
-              <el-button type="primary" size="mini">回复</el-button>
+            <div  class="addReply" v-show="Boolean(rep.showReply)">
+              <editor :height="200" :content.sync="rep.replyContent"></editor>
+              <el-button class="mt-10" type="primary" size="mini" @click="HandleReplyComment(rep)">回复</el-button>
             </div>
           </li>
         </ul>
@@ -48,7 +48,7 @@
           <span>添加回复</span>
         </div>
         <div class="bottom_container">
-          <editor :id="reply" :height="300" :content.sync="replyContent"></editor>
+          <editor :id="'reply'" :height="300" :content.sync="replyContent"></editor>
 
           <el-button class="mt-10 mb-10" type="success" @click="HandleReply">回复</el-button>
         </div>
@@ -74,6 +74,7 @@
 <script>
   import editor from '@/components/tinymce'
   import moment from 'moment'
+  import {mapGetters} from 'vuex'
   export default {
     name: 'topic',
     props: {
@@ -86,22 +87,36 @@
         },
         replyContent: '',
         addReply: '',
-        replays: []
+        replays: [{showReply: false}]
       }
     },
     methods: {
       HandleReply() {
+        if(!this.logined){
+          this.$message.error('请先注册/登录');
+          return;
+        }
         this.$http.post('/comment/addComment',{_id: this.item._id,content: this.replyContent, type: 'topic', authid: this.item.user_id}).then(res => {
           console.log(res);
+          if(res.code === 1){
+            this.$message.success(res.description);
+            Object.assign(res.result, {user_id: this.loginInfo})
+          }
         })
       },
       HandleReplytoReply(rep) {
-        rep.showReply = 1;
-        rep.replyContent = '@'+12321312;
+        rep.showReply = true;
+        rep.replyContent = `@${rep.user_id.user_name} `;
         console.log(rep)
+      },
+      HandleReplyComment(rep) {
+        console.log(rep.replyContent)
       }
     },
     computed: {
+      ...mapGetters([
+        'loginInfo','logined'
+      ]),
       create_time() {
         if(this.item.create_time)
           return moment(this.item.create_time).format('YYYY-MM-DD HH:mm:ss');
@@ -126,10 +141,8 @@
             this.item = res.result;
             this.replays = this.item.replays;
             this.replays.forEach(it => {
-              it.showReply = false;
+              this.$set(it,'showReply', false);
             })
-            console.log(this.replays)
-
           }
         })
     }
