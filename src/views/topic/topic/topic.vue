@@ -87,7 +87,7 @@
         },
         replyContent: '',
         addReply: '',
-        replays: [{showReply: false}]
+        replays: []
       }
     },
     methods: {
@@ -100,17 +100,30 @@
           console.log(res);
           if(res.code === 1){
             this.$message.success(res.description);
-            Object.assign(res.result, {user_id: this.loginInfo})
+            res.result.user_id = this.loginInfo;
+            this.$set(res.result,'showReply', false);
+            this.replays.push(res.result);
+            this.replyContent = '';
           }
         })
       },
       HandleReplytoReply(rep) {
         rep.showReply = true;
         rep.replyContent = `@${rep.user_id.user_name} `;
+        rep.replyContent = `<p><font color="#1389CA">@${rep.user_id.user_name}</font></p><p></p>`;
         console.log(rep)
       },
       HandleReplyComment(rep) {
         console.log(rep.replyContent)
+        this.$http.post('/comment/addComment',{_id: this.item._id, content: rep.replyContent, type: 'comment', target_id: rep._id}).then(res => {
+          console.log(res);
+          if(res.code === 1){
+            res.result.user_id = this.loginInfo;
+            this.$set(res.result,'showReply', false);
+            this.replays.forEach(it => {it.showReply = false;})
+            this.replays.push(res.result);
+          }
+        })
       }
     },
     computed: {

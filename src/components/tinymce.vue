@@ -8,6 +8,7 @@ import 'tinymce/themes/modern/theme'
 import Editor from '@tinymce/tinymce-vue'
 import 'tinymce/plugins/image'
 import 'tinymce/plugins/link'
+import 'tinymce/plugins/textcolor'
 export default {
   name: 'tinymce',
   props: {
@@ -41,10 +42,11 @@ export default {
         language_url: '/static/tinymce/zh_CN.js',
         language: 'zh_CN',
         skin_url: '/static/tinymce/skins/lightgray',
+        default_link_target: '_blank',
         height: this.height,
-        plugins: 'image link ',
+        plugins: 'image link textcolor ',
         toolbar:
-          'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | link unlink image code | removeformat',
+          'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | link unlink image code ',
         images_upload_handler:(blobInfo, success, failure) => {
           let fd = new FormData()
           fd.append('file',blobInfo.blob())
