@@ -7,6 +7,7 @@ import login from '../views/register/login'
 import topic from '../views/topic/topic/topic'
 import home from '../views/home/home'
 import message from '../views/message/message'
+import about from '../views/about/about'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/message',
       name: 'message',
       component: message
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: about
     }
 
   ]

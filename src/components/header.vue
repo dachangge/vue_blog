@@ -19,7 +19,7 @@
      <el-col :xs="24" :sm="24" :md="11" :lg="11">
         <ul class="nav-tabs rt">
           <router-link tag="li" to="/"  class="lt">首页</router-link>
-          <li class="lt">关于</li>
+          <router-link tag="li" :to="'/about'" class="lt" >关于</router-link>
           <router-link v-if="!logined" tag="li" :to="'/login'" class="lt">登陆</router-link>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
           <router-link v-if="logined" tag="li" :to="'/message'" class="lt">未读消息</router-link>
