@@ -5,7 +5,7 @@
           <span>个人信息</span>
         </div>
         <div class="container">
-          <img class="user_img" :src="loginInfo.url? loginInfo.url : 'https://avatars0.githubusercontent.com/u/23630003?v=4&s=120'" alt="">
+          <img class="user_img" :src="loginInfo.header_url" alt="">
           <span class="user_name">{{loginInfo.user_name}}</span>
           <p>
             <i class="user_autograph">{{autograph}}</i>

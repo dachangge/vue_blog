@@ -57,7 +57,9 @@ export default {
       console.log(this.form);
       this.$http.post('/user/create', this.form)
         .then(res => {
-          console.log(res);
+          if(res.code === 1){
+            this.$router.push({path: '/'});
+          }
         })
     }
   },

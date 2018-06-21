@@ -29,7 +29,7 @@
           <li v-for="(rep, index) in replays" :key="index" >
             <i class="el-icon-edit rt icon" @click="HandleReplytoReply(rep)"></i>
             <div class="reply_msg">
-              <img src="https://avatars0.githubusercontent.com/u/23630003?v=4&s=120" alt="">
+              <img :src="rep.user_id.header_url" alt="">
               <span class="user_name">{{rep.user_id ? rep.user_id.user_name : 'zhazha'}}</span>
               <span class="reply_time">{{rep.create_time | hlbefore}}</span>
             </div>
@@ -60,7 +60,7 @@
         <span>作者</span>
       </div>
       <div class="container">
-        <img class="user_img" :src="item.user_id.url? item.user_id.url : 'https://avatars0.githubusercontent.com/u/23630003?v=4&s=120'" alt="">
+        <img class="user_img" :src="item.user_id.header_url" alt="">
         <span class="user_name">{{item.user_id.user_name}}</span>
         <p>
           <i class="user_autograph">{{item.user_id.autograph? item.user_id.autograph: '这家伙很懒，什么个性签名都没有留下。'}}</i>

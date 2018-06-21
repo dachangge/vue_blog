@@ -11,7 +11,7 @@
               <span class="crently_time rt">
                 {{topic.recently_reply_time | hlbefore}}
               </span>
-              <img :src="topic.user_id.url" alt="" class="topic_user">
+              <img :src="topic.user_id.header_url" alt="" class="topic_user">
               <div class="replyCount">
                 <span title="回复数" class="reply">{{topic.replays.length}} /</span>
                 <span title="点击数">{{topic.looks}}</span>

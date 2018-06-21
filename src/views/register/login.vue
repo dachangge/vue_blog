@@ -13,6 +13,7 @@
           <el-input class="register_input" type="password" v-model="form.pass_word"></el-input>
         </el-form-item>
         <el-button type="primary" @click="HandleSubmit">登陆</el-button>
+        <el-button type="primary" @click="HandleRegister">没有账号,先去注册</el-button>
       </el-form>
     </div>
     <div class="aside">
@@ -53,6 +54,9 @@
               this.$router.push('/');
             }
           })
+      },
+      HandleRegister() {
+        this.$router.push({path: '/register'});
       }
     },
     created() {

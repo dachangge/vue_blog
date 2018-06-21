@@ -5,6 +5,10 @@
           <router-link tag="span" to="/" class="router_link">主页</router-link>
           <span>\ 设置</span>
         </div>
+        <div class="current_avatar">
+          <span>当前头像</span>
+          <img  :src="loginInfo.header_url" alt="">
+        </div>
         <el-form ref="form" :model="loginInfo" label-width="80px" style="max-width: 400px;margin: 20px auto 0;">
           <el-form-item label="用户名">
             <el-input class="register_input" v-model="loginInfo.user_name"></el-input>
@@ -39,21 +43,68 @@
           <el-button type="primary" @click="HandleChangePsd">更改密码</el-button>
         </el-form>
       </div>
+
+      <div class="main mt-15">
+        <div class="header">
+          <span>头像上传</span>
+        </div>
+        <div class="avatar_container">
+
+          <el-upload
+            ref="upload"
+            class="avatar-uploader"
+            action="http://localhost:3000/user/headerUrlUpload"
+            :data="{_id: this.loginInfo._id}"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :accept="'image/jpeg,image/png'"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+
+        </div>
+
+      </div>
+
     </div>
 </template>
 
 <script>
-    export default {
+  import {ImageUpload , ImagePreview} from 'vue-image-upload-preview'
+  import {mapGetters} from 'vuex'
+  export default {
       name: 'userInfo',
       data() {
         return {
           form1: {},
           loginInfo: {},
           user_name: '',
-          autograph: ''
+          autograph: '',
+          imageUrl: '',
+          // data: {
+          //   _id: this.loginInfo._id
+          // }
         }
       },
+      components:{
+        ImagePreview,
+        ImageUpload
+      },
+
       methods: {
+        handleAvatarSuccess(res, file) {
+          this.imageUrl = res.result;
+          this.loginInfo.header_url = res.result;
+          this.$store.dispatch('getInfo');
+        },
+        beforeAvatarUpload(file) {
+          const isLt2M = file.size / 1024 / 1024 < 2;
+          if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
+          }
+          return  isLt2M;
+        },
         HandleSubmit() {
           this.$http.post('/user/saveUser',this.loginInfo).then(res => {
             if(res.code === 1){
@@ -64,7 +115,6 @@
         },
         HandleChangePsd() {
           this.$http.post('/user/changePsd',this.form1).then(res => {
-
           })
         },
         changeMsg() {
@@ -108,4 +158,26 @@
     background: #fff;
     padding: 10px 0;
   }
+  .avatar_container{
+    margin-top: 15px;
+  }
+  .current_avatar{
+    width: 400px;
+    margin: 20px auto;
+    text-align: left;
+    span{
+      font-size: 14px;
+      color: #606266;
+      display: inline-block;
+      width: 68px;
+      text-align: right;
+      padding-right: 12px;
+    }
+    img{
+      width: 60px;
+      height: 60px;
+      vertical-align: top;
+    }
+  }
+
 </style>

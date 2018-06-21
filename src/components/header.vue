@@ -18,9 +18,7 @@
        </el-col>
      <el-col :xs="24" :sm="24" :md="11" :lg="11">
         <ul class="nav-tabs rt">
-          <li class="lt">首页</li>
-          <li class="lt">分享</li>
-          <li class="lt">提问</li>
+          <router-link tag="li" to="/"  class="lt">首页</router-link>
           <li class="lt">关于</li>
           <router-link v-if="!logined" tag="li" :to="'/login'" class="lt">登陆</router-link>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
