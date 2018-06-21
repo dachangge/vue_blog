@@ -6,6 +6,7 @@ import topicCreate from '../views/topic/create/create'
 import login from '../views/register/login'
 import topic from '../views/topic/topic/topic'
 import home from '../views/home/home'
+import message from '../views/message/message'
 
 Vue.use(Router)
 
@@ -40,7 +41,11 @@ export default new Router({
       name: 'topic',
       props: true,
       component: topic
-
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: message
     }
 
   ]

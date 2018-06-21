@@ -49,7 +49,6 @@
         </div>
         <div class="bottom_container">
           <editor :id="'reply'" :height="300" :content.sync="replyContent"></editor>
-
           <el-button class="mt-10 mb-10" type="success" @click="HandleReply">回复</el-button>
         </div>
       </div>
@@ -96,7 +95,7 @@
           this.$message.error('请先注册/登录');
           return;
         }
-        this.$http.post('/comment/addComment',{_id: this.item._id,content: this.replyContent, type: 'topic', authid: this.item.user_id}).then(res => {
+        this.$http.post('/comment/addComment',{_id: this.item._id,content: this.replyContent, type: 'topic', authid: this.item.user_id._id,}).then(res => {
           console.log(res);
           if(res.code === 1){
             this.$message.success(res.description);
@@ -115,7 +114,7 @@
       },
       HandleReplyComment(rep) {
         console.log(rep.replyContent)
-        this.$http.post('/comment/addComment',{_id: this.item._id, content: rep.replyContent, type: 'comment', target_id: rep._id}).then(res => {
+        this.$http.post('/comment/addComment',{_id: this.item._id, content: rep.replyContent, type: 'comment', authid: rep.user_id._id, target_id: rep._id,}).then(res => {
           console.log(res);
           if(res.code === 1){
             res.result.user_id = this.loginInfo;

@@ -22,6 +22,7 @@
           <li class="lt">关于</li>
           <router-link v-if="!logined" tag="li" :to="'/login'" class="lt">登陆</router-link>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
+          <router-link v-if="logined" tag="li" :to="'/message'" class="lt">未读消息</router-link>
           <router-link v-if="logined" tag="li" :to="'/setting'" class="lt">设置</router-link>
           <li class="lt" v-if="logined" @click="HandleLoginout">退出</li>
         </ul>

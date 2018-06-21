@@ -235,3 +235,13 @@ ul {
   height: 120px;
   display: block;
 }
+
+
+//下划线
+.link{
+  color: #005580;
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}
