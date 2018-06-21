@@ -51,7 +51,7 @@ export default {
       this.$http.post('/user/loginOut').then(res => {
         if(res.code === 1){
           this.$store.dispatch('getInfo');
-          this.$router.push('/main');
+          this.$router.push('/');
         }
       })
     }

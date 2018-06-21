@@ -53,7 +53,7 @@
           <el-upload
             ref="upload"
             class="avatar-uploader"
-            action="http://localhost:3000/user/headerUrlUpload"
+            action="/user/headerUrlUpload"
             :data="{_id: this.loginInfo._id}"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
