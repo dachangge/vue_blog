@@ -8,7 +8,7 @@
         </div>
         <ul class="message_ul" v-if="unreadMessages && unreadMessages.length > 0">
           <li v-for="(message, index) in unreadMessages" :key="index">
-            <router-link tag="span"  class="link">{{message.user_id.user_name}}</router-link>
+            <router-link tag="span" :to="'/user'+message.user_id._id" class="link">{{message.user_id.user_name}}</router-link>
             <template v-if="message.parent_type === 'comment'">
               回复了你在
               <router-link :to="'/topic/'+message.topic_id._id" tag="span" class="link" >{{message.topic_id.title}}</router-link>

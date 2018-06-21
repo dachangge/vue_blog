@@ -8,6 +8,8 @@ import topic from '../views/topic/topic/topic'
 import home from '../views/home/home'
 import message from '../views/message/message'
 import about from '../views/about/about'
+import user from '../views/user/user'
+
 
 Vue.use(Router)
 
@@ -52,6 +54,12 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: about
+    },
+    {
+      path: '/user/:id',
+      name: 'user',
+      props: true,
+      component: user
     }
 
   ]
