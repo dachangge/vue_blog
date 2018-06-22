@@ -1,65 +1,54 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import register from '../views/register/register'
-import setting from '../views/setting/setting'
-import topicCreate from '../views/topic/create/create'
-import login from '../views/register/login'
-import topic from '../views/topic/topic/topic'
-import home from '../views/home/home'
-import message from '../views/message/message'
-import about from '../views/about/about'
-import user from '../views/user/user'
-
-
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      component: home
+      component: () => import('../views/home/home')
     },
     {
       path: '/register',
       name: 'register',
-      component: register,
+      component: () => import('../views/register/register')
     },
     {
       path: '/setting',
       name: 'setting',
-      component: setting,
+      component: () => import('../views/setting/setting')
     },
     {
       path: '/topic/create',
       name: 'topicCreate',
-      component: topicCreate,
+      component: () => import('../views/topic/create/create')
     },
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: () => import('../views/register/login')
     },
     {
       path:'/topic/:id',
       name: 'topic',
       props: true,
-      component: topic
+      component: () => import('../views/topic/topic/topic')
     },
     {
       path: '/message',
       name: 'message',
-      component: message
+      component: () => import('../views/message/message')
     },
     {
       path: '/about',
       name: 'about',
-      component: about
+      component: () => import('../views/about/about')
     },
     {
       path: '/user/:id',
       name: 'user',
       props: true,
-      component: user
+      component: () => import('../views/user/user')
     }
 
   ]

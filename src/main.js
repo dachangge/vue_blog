@@ -9,6 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import store from './store/index'
 
+import 'babel-polyfill'
+
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false

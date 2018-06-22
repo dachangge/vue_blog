@@ -3,7 +3,7 @@
     <div class="main" >
       <div class="header">
         <router-link tag="span" to="/" class="router_link">主页</router-link>
-        <span>\ 关于</span>
+        <span>\ </span>
       </div>
       <div class="container">
         <h3>关于</h3>

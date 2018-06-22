@@ -1,8 +1,10 @@
 
 import axios from 'axios';
+import io from 'socket.io-client';
 export default{
   state: {
     loginInfo: {},
+    io: null
   },
   getters: {
     logined: state => {
@@ -13,7 +15,8 @@ export default{
     },
     loginInfo: state => {
       return state.loginInfo;
-    }
+    },
+    io: state => state.io
   },
   actions: {
     getInfo({commit}){
@@ -29,6 +32,18 @@ export default{
   mutations:{
     setlogininfo(state,res) {
       state.loginInfo = res;
+      if(!state.io){
+        state.io = io('http://localhost:3000');
+        state.io.on('connect', () => {
+
+        });
+        state.io.on('event', (data) => {
+
+        });
+        state.io.emit('hi',state.loginInfo._id);
+      }else{
+        state.io.emit('hi',state.loginInfo._id)
+      }
       console.log(res,state);
     }
   }
