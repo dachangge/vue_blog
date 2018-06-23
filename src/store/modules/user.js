@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import io from 'socket.io-client';
+import {Notification} from 'element-ui'
 export default{
   state: {
     loginInfo: {},
@@ -34,15 +35,23 @@ export default{
       state.loginInfo = res;
       if(!state.io){
         state.io = io('http://localhost:3000');
-        state.io.on('connect', () => {
-
+        state.io.on('connect', (socket) => {
+          console.log(socket);
         });
-        state.io.on('event', (data) => {
-
+        state.io.on('c_hi', (data) => {
+          console.log(data);
         });
-        state.io.emit('hi',state.loginInfo._id);
+        state.io.on('sendComment',(data) => {
+          Notification({
+            title: '提示',
+            message: '你有一条新消息',
+            duration: 0
+          })
+          console.log(data);
+        })
+        state.io.emit('loginin',state.loginInfo._id);
       }else{
-        state.io.emit('hi',state.loginInfo._id)
+        state.io.emit('loginin',state.loginInfo._id)
       }
       console.log(res,state);
     }
