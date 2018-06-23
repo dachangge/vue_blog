@@ -5,7 +5,8 @@ import {Notification} from 'element-ui'
 export default{
   state: {
     loginInfo: {},
-    io: null
+    io: null,
+    unreadMessageNum: 0
   },
   getters: {
     logined: state => {
@@ -17,20 +18,38 @@ export default{
     loginInfo: state => {
       return state.loginInfo;
     },
-    io: state => state.io
+    io: state => state.io,
+    unreadMessageNum: state => state.unreadMessageNum
   },
   actions: {
-    getInfo({commit}){
+    getInfo({commit},value){
       axios.post('/user/checkUser').then(res => {
         if(res.code === 1){
           commit("setlogininfo", res.result);
+          if(value){
+            axios.post('/comment/queryCommentByUserId',{unread: true})
+              .then(r => {
+                if(r.code === 1){
+                  commit("setunreadMessageNum", r.result.filter(it => !it.status).length);
+                }
+              })
+          }
         }else{
           commit('setlogininfo', {})
         }
       })
+    },
+    readMessage({commit}){
+      commit('reduceUnreadMessage')
     }
   },
   mutations:{
+    reduceUnreadMessage(state){
+      state.unreadMessageNum --;
+    },
+    setunreadMessageNum(state, res) {
+      state.unreadMessageNum = res;
+    },
     setlogininfo(state,res) {
       state.loginInfo = res;
       if(!state.io){
@@ -42,12 +61,12 @@ export default{
           console.log(data);
         });
         state.io.on('sendComment',(data) => {
-          Notification({
-            title: '提示',
-            message: '你有一条新消息',
+          Notification.info({
+            title: '消息',
+            message: '你有一条未读消息',
             duration: 0
           })
-          console.log(data);
+          state.unreadMessageNum ++;
         })
         state.io.emit('loginin',state.loginInfo._id);
       }else{

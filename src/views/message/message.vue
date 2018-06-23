@@ -10,13 +10,13 @@
           <li v-for="(message, index) in unreadMessages" :key="index">
             <router-link tag="span" :to="'/user'+message.user_id._id" class="link">{{message.user_id.user_name}}</router-link>
             <template v-if="message.parent_type === 'comment'">
-              回复了你在
-              <router-link :to="'/topic/'+message.topic_id._id" tag="span" class="link" >{{message.topic_id.title}}</router-link>
-              的话题
+              回复了你在话题
+              <span @click="HandleReadMessage(message)" class="link" >{{message.topic_id.title}}</span>
+              的评论
             </template>
             <template v-if="message.parent_type === 'topic'">
               回复了你的话题
-              <router-link :to="'/topic/'+message.topic_id._id" tag="span" class="link">{{message.topic_id.title}}</router-link>
+              <span @click="HandleReadMessage(message)" class="link">{{message.topic_id.title}}</span>
             </template>
           </li>
         </ul>
@@ -62,22 +62,41 @@
     name: 'message',
     data() {
       return {
-        unreadMessages: [],
-        readMessages: []
+        messages: []
       }
     },
     methods: {
-
+      HandleReadMessage(message){
+        console.log(message);
+        this.$http.post('/comment/readComment',{id: message._id})
+          .then(res => {
+            console.log(res);
+            if(res.code === 1){
+              this.$store.dispatch('readMessage');
+              this.$router.push({
+                path:`/topic/${message.topic_id._id}`,
+                query: {readReply: true}
+              })
+            }
+          })
+      }
     },
     components: {
       userInfo
+    },
+    computed: {
+      unreadMessages() {
+        return this.messages.filter(it => !it.status);
+      },
+      readMessages() {
+        return this.messages.filter(it => it.status);
+      }
     },
     created() {
       this.$http.post('/comment/queryCommentByUserId').then(res => {
         console.log(res);
         if(res.code === 1){
-          this.unreadMessages = res.result.filter(it => !it.status);
-          this.readMessages = res.result.filter(it => it.status);
+          this.messages = res.result;
         }
       })
     }

@@ -21,7 +21,7 @@
 
         </div>
       </div>
-      <div class="main_center" v-if="item.replays && item.replays.length > 0">
+      <div ref="replySection" class="main_center" v-if="item.replays && item.replays.length > 0">
         <div class="header">
           <span> {{item.replays.length}} 回复</span>
         </div>
@@ -77,7 +77,7 @@
   export default {
     name: 'topic',
     props: {
-      id: String
+      id: String,
     },
     data() {
       return {
@@ -144,6 +144,14 @@
     },
     components: {
       editor
+    },
+    mounted() {
+      console.log(this.$route, this);
+      if(this.$route.query.readReply){
+        setTimeout(() => {
+          window.scrollTo(0,this.$refs.replySection.offsetTop)
+        },1000)
+      }
     },
     created() {
       this.$http.post('/topic/queryTopicById',{id: this.id})

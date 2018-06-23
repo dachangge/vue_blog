@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import nprogress from 'nprogress';
+import 'nprogress/nprogress.css'
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -53,3 +55,13 @@ export default new Router({
 
   ]
 })
+
+router.beforeEach((to, form, next) => {
+  nprogress.start();
+  next();
+})
+router.afterEach((to, from) => {
+  nprogress.done();
+})
+
+export default router;

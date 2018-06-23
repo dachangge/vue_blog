@@ -22,7 +22,10 @@
           <router-link tag="li" :to="'/about'" class="lt" >关于</router-link>
           <router-link v-if="!logined" tag="li" :to="'/login'" class="lt">登陆</router-link>
           <router-link v-if="!logined" tag="li" :to="'/register'" class="lt">注册</router-link>
-          <router-link v-if="logined" tag="li" :to="'/message'" class="lt">未读消息</router-link>
+          <router-link v-if="logined" tag="li" :to="'/message'" class="lt" style="position: relative">
+              未读消息
+            <sup class="messageNum" v-if="unreadMessageNum > 0">{{unreadMessageNum}}</sup>
+          </router-link>
           <router-link v-if="logined" tag="li" :to="'/setting'" class="lt">设置</router-link>
           <li class="lt" v-if="logined" @click="HandleLoginout">退出</li>
         </ul>
@@ -40,7 +43,7 @@ export default {
     },
     computed:{
       ...mapGetters([
-        'logined'
+        'logined','unreadMessageNum'
       ])
     },
   methods: {
@@ -57,7 +60,7 @@ export default {
     }
   },
     created() {
-      this.$store.dispatch('getInfo');
+      this.$store.dispatch('getInfo', true);
     }
 
 }
@@ -65,6 +68,18 @@ export default {
 <style lang="scss" scoped>
   .nav-logo{
     cursor: pointer;
+  }
+  .messageNum{
+    position: absolute;
+    top: 0;
+    right: 8px;
+    color: #fff;
+    font-size: 12px;
+    background: #f56c6c;
+    height: 18px;
+    line-height: 18px;
+    padding: 1px 5px;
+    border-radius: 9px;
   }
 </style>
 

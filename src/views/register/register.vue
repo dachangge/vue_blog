@@ -58,7 +58,7 @@ export default {
       this.$http.post('/user/create', this.form)
         .then(res => {
           if(res.code === 1){
-            this.$store.dispatch('getInfo');
+            this.$store.dispatch('getInfo',true);
             this.$router.push({path: '/'});
           }
         })
